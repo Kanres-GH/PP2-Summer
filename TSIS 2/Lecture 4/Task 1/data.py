@@ -10,7 +10,7 @@ Date —— (18.04.2019 11:13:58)
 Address —— (г. Нур-султан,Казахстан, Мангилик Ел,19, нп-5)
 """
 import re
-with open('raw.txt', 'r', encoding='utf-8') as raw:
+with open('data.txt', 'r', encoding = 'utf-8') as raw:
     text = raw.read()
 total_sum = 0
 company_name = re.search(r'ДУБЛИКАТ\n(.*)\n', text).group(1)
