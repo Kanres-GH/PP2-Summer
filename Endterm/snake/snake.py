@@ -235,6 +235,7 @@ class SNAKE:
     def reset(self):
         global died
         died = False
+        self.score = 0
         #self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
         self.body = [Vector2(2, 7), Vector2(1, 7), Vector2(0, 7)]
         self.direction = pg.Vector2(1, 0)
@@ -321,10 +322,13 @@ class MAIN:
 
     def show_levels(self):
         global data, click, choice_1, choice_2, choice_3, start_game, is_new_game, delay
+        
         while True:
+            if is_new_game:
+                print(1)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    data['current score'] = self.score
+                    #data['current score'] = self.score
                     with open('config.txt', 'w') as config_file:
                         json.dump(data, config_file)
                     pg.quit()
@@ -347,7 +351,7 @@ class MAIN:
                     choice_2 = False
                     choice_3 = False
                     start_game = True
-                    is_new_game = False
+                    
                     break
                     
             if level_2_button.collidepoint((mouse_x, mouse_y)):
@@ -356,7 +360,7 @@ class MAIN:
                     choice_2 = True
                     choice_3 = False
                     start_game = True
-                    is_new_game = False
+                    
                     break
             if level_3_button.collidepoint((mouse_x, mouse_y)):
                 if click:
@@ -364,7 +368,7 @@ class MAIN:
                     choice_2 = False
                     choice_3 = True
                     start_game = True
-                    is_new_game = False
+                    
                     break
             if back_button.collidepoint((mouse_x, mouse_y)):
                 if click:
@@ -660,7 +664,7 @@ class MAIN:
                 self.food.randomize()
     
     def game_over(self):
-        global died, start_game
+        global died, start_game, is_new_game
         screen.blit(game_over_black, (0, 0))
         screen.blit(game_over_surface, game_over_rect)
         self.draw_final_score()
@@ -677,6 +681,7 @@ class MAIN:
                     sys.exit()
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_SPACE or event.key == pg.K_r:
+                        is_new_game = True
                         self.snake.reset()
                     if event.key == pg.K_ESCAPE:
                         data['died before'] = True
@@ -728,7 +733,16 @@ class MAIN:
 
     def draw_score(self):
         global highscore, data, is_new_game #len(self.snake.body) - 3
-        self.score = data['current score'] if is_new_game == False else 0
+        self.score = data['current score']
+        if is_new_game == False:
+            self.score = len(self.snake.body) - 3
+        #self.score = data['current score'] if is_new_game == False else 0
+        #if is_new_game:
+            #self.score = 0
+            #is_new_game = False
+        # else:
+        #     self.score = data['current score']
+        
         if self.score > data['highscore']:
             highscore = self.score
             data['highscore'] = highscore
