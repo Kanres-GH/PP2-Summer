@@ -85,8 +85,14 @@ while True:
         #     i[2][1] = random.randint(0, WIN_WIDTH)
         #     i[2][0] = random.randint(0, WIN_HEIGHT)
         #     cnt = 0
-    if not (0 <= player_y <= WIN_HEIGHT or 0 <= player_x <= WIN_WIDTH):
-        player_speed = -player_speed
+    if player_x < 0:
+        player_x += player_speed
+    if player_x > WIN_WIDTH - 15:
+        player_x -= player_speed
+    if player_y < 0:
+        player_y += player_speed
+    if player_y > WIN_HEIGHT - 15:
+        player_y -= player_speed
     score_text = f'Score: {score}'
     score_surface = font.render(score_text, True, BLACK)
     score_rect = score_surface.get_rect(center = (50, 20))
