@@ -67,6 +67,7 @@ while True:
         i[2][1] += 1
         if i[2][1] > WIN_HEIGHT:
             i[2][1] = -20
+            i[2][0] = random.randint(0, WIN_WIDTH)
         if player_rect.colliderect(i[2]):
             i[2][1] = 10000
             i[2][0] = 10000
@@ -74,7 +75,6 @@ while True:
     for i in green_block_list:
         pg.draw.rect(i[0], i[1], i[2])
         if player_rect.colliderect(i[2]):
-            cnt += 1
             score += 1
             i[2][1] = 10000
             i[2][0] = 10000
